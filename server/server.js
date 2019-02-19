@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
 
     socket.on("createMsg", function (msg) {
         console.log(msg)
-        io.emit('newMsg',generateMsg(msg.from,msg.text));
+        io.emit('newMsg', generateMsg(msg.from, msg.text));
         // socket.broadcast.emit('newMsg', {
         //     from: msg.from,
         //     text: msg.text,
