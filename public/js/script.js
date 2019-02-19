@@ -13,13 +13,13 @@ socket.on('newMsg', function (msg) {
     li.text(`${msg.from}: ${msg.text}`);
     jQuery("#msgs").append(li);
 });
-
+var msgBox = jQuery('[name=msg]');
 jQuery("#msg-form").on('submit', function (e) {
     e.preventDefault();
     socket.emit('createMsg', {
         from: 'User',
-        text: jQuery('[name=msg]').val()
+        text: msgBox.val()
     }, function () {
-        jQuery('[name=msg]').val() = '';
+        msgBox.val('');
     })
 })
