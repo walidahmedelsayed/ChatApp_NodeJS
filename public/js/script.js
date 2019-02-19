@@ -8,10 +8,19 @@ socket.on('disconnect', function () {
     console.log("disconnected")
 });
 socket.on('newMsg', function (msg) {
-    var formatedTime = moment(msg.createdAt).format('h:mm a');
-    var li = jQuery("<li></li>");
-    li.text(`${msg.from} ${formatedTime}: ${msg.text}`);
-    jQuery("#msgs").append(li);
+    var formatedTime = moment(msg.createdAt).format('h:mm:ss a');
+    var template = jQuery('#msg-template').html();
+    var html = Mustache.render(template, {
+        from: msg.from,
+        text: msg.text,
+        createdAt: formatedTime
+    });
+    jQuery('#msgs').append(html);
+
+    // var formatedTime = moment(msg.createdAt).format('h:mm a');
+    // var li = jQuery("<li></li>");
+    // li.text(`${msg.from} ${formatedTime}: ${msg.text}`);
+    // jQuery("#msgs").append(li);
 });
 var msgBox = jQuery('[name=msg]');
 jQuery("#msg-form").on('submit', function (e) {
