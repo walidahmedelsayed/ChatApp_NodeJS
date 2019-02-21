@@ -30,8 +30,11 @@ io.on("connection", (socket) => {
     });
 
     socket.on("createMsg", function (msg, callback) {
-        console.log(msg)
-        io.emit('newMsg', generateMsg(msg.from, msg.text));
+        var user = users.getUser(socket.id);
+        if (user && isRealString(msg.text)) {
+            io.to(user.room).emit('newMsg', generateMsg(user.name, msg.text));
+        }
+
         callback();
         // socket.broadcast.emit('newMsg', {
         //     from: msg.from,
@@ -49,8 +52,6 @@ io.on("connection", (socket) => {
         }
     });
 });
-
-
 
 server.listen(PORT, () => {
     console.log("Server is up and running on " + PORT);
